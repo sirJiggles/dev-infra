@@ -7,7 +7,7 @@ const run = async () => {
   const reposSynced = await syncRepos()
 
   // just some output for now, lets see how we are going to handle it later
-  console.log('synced repos', reposSynced)
+  // console.log('synced repos', reposSynced)
 }
 
 // run the main f
