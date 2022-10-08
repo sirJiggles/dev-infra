@@ -2,13 +2,12 @@ name: Sync the dev infrastructure (DRY RUN)
 # Change this to on merge when done with the script
 # as right now it is on push
 on:
-  push:
-    branches-ignore:
-      - main
   workflow_run:
     workflows: ['test']
     types:
       - completed
+    branches-ignore:
+      - main
 
 jobs:
   sync-infra:
