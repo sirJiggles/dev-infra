@@ -40,12 +40,4 @@ describe('config tests', () => {
       'required config param missing: GH_ORG_NAME'
     )
   })
-
-  it('should require github owner name to be set', () => {
-    process.env = { ...process.env, ...validConfig }
-    delete process.env.GH_OWNER
-    expect(() => config()).toThrowError(
-      'required config param missing: GH_OWNER'
-    )
-  })
 })

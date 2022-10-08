@@ -36,15 +36,3 @@ export const createRepo = async (repo: Repository) => {
     })
   }
 }
-
-export const deleteRepo = async (repo: string) => {
-  if (!dryRun) {
-    log('warn', `removing repo ${repo} from github`)
-    await octokit.rest.repos.delete({
-      repo,
-      owner: envConf.github.owner,
-    })
-  } else {
-    log('info', `DRY RUN, would remove repo ${repo} from github`)
-  }
-}

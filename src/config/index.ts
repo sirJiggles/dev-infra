@@ -3,12 +3,7 @@ import { DevInfraConfig } from './types'
 
 // just a little function to throw error
 const validateConfig = () => {
-  const requiredParams = [
-    'NPM_TOKEN',
-    'GH_ACCESS_TOKEN',
-    'GH_ORG_NAME',
-    'GH_OWNER',
-  ]
+  const requiredParams = ['NPM_TOKEN', 'GH_ACCESS_TOKEN', 'GH_ORG_NAME']
   requiredParams.forEach((param) => {
     if (!process.env[param]) {
       throw new RequiredConfigError(param)
@@ -27,7 +22,6 @@ export const config = (): DevInfraConfig => {
     github: {
       token: process.env.GH_ACCESS_TOKEN!,
       org: process.env.GH_ORG_NAME!,
-      owner: process.env.GH_OWNER!,
     },
   }
 }

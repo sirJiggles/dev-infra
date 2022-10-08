@@ -5,6 +5,5 @@ export type DevInfraConfig = {
   github: {
     token: string
     org: string
-    owner: string
   }
 }
