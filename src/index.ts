@@ -1,5 +1,8 @@
-// make sure the repos on the account are in sync, just use the github API for this
+// as soon as possible require the env
+import * as dotenv from 'dotenv'
+dotenv.config()
 
+// make sure the repos on the account are in sync, just use the github API for this
 import { syncRepos } from './syncRepos'
 
 const run = async () => {
@@ -10,5 +13,5 @@ const run = async () => {
   // console.log('synced repos', reposSynced)
 }
 
-// run the main f
+// run the main function
 run()

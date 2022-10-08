@@ -1,5 +1,6 @@
 import { Repository } from './types'
 
+// Here is where you list all your repos, and how you would like them to be configured
 export const repositories: Repository[] = [
   {
     name: 'managed-test-repo',
@@ -10,3 +11,5 @@ export const repositories: Repository[] = [
     actions: ['test', 'release'],
   },
 ]
+
+export const reposNotUnderManagement = []

@@ -1,7 +1,9 @@
-name: Sync the dev infrastructure
+name: Sync the dev infrastructure (DRY RUN)
+# Change this to on merge when done with the script
+# as right now it is on push
 on:
   push:
-    branches:
+    branches-ignore:
       - main
   workflow_run:
     workflows: ['test']
@@ -20,6 +22,7 @@ jobs:
       - run: npm run build
       - run: npm run syncInfra
         env:
+          DRY_RUN: true
           GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
           GH_ORG_NAME: ${{ secrets.GH_ORG_NAME }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

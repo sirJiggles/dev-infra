@@ -1,3 +1,5 @@
+// This maps to template folders in the templates directory, we just copy and paste them for a first
+// commit when making a new repo
 type RepositoryTemplate = 'typescript-service' | 'typescript-frontend'
 // list of bots that we can use
 type RepositoryBot = 'changeset' | 'dependabot'
