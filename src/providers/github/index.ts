@@ -74,8 +74,6 @@ export const createTemplatePR = async (repo: Repository) => {
     commit_sha: newBranchRef.data.object.sha,
   })
 
-  octokit.rest.git.
-
   const newCommit = await octokit.rest.git.createCommit({
     owner,
     repo: repo.name,
