@@ -1,8 +1,7 @@
 name: Test
-# Change this to on merge when done with the script
 on: 'push'
 jobs:
-  set-up:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -10,14 +9,5 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-  test:
-    needs: set-up
-    runs-on: ubuntu-latest
-    steps:
       - run: npm run test
       - run: npm run lint
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - run: npm run build

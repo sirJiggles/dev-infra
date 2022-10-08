@@ -1,11 +1,21 @@
 name: Sync the dev infrastructure
 # Change this to on merge when done with the script
-on: 'push'
+# as right now it is on push
+on:
+  workflow_run:
+    workflows: ['test']
+    types:
+      - completed
 
 jobs:
   sync-infra:
-    # to build you need to test and install first, so we just need to build
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run build
       - run: npm run syncInfra
