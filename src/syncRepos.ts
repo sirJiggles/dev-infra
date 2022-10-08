@@ -1,3 +1,4 @@
+import { log } from './log'
 import { createRepo, listRepos } from './providers/github'
 import { repositories } from './repositories'
 
@@ -11,6 +12,8 @@ export const syncRepos = async () => {
     // create the repo if it does not exist
     if (!reposInGithubNames.includes(repo.name)) {
       await createRepo(repo)
+    } else {
+      log('info', `repo: ${repo.name}, already exists. Not creating`)
     }
 
     return repo.name

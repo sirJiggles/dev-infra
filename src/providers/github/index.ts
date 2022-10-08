@@ -18,9 +18,9 @@ export const listRepos = async () => {
   // iterate through each response
   // @TODO try to get some sort of async reducer to work,
   // we are loosing type safety here and it will bite us in the ass
-  const finalRepos: any[] = []
+  let finalRepos: any[] = []
   for await (const { data: repos } of iterator) {
-    finalRepos.concat(repos)
+    finalRepos = finalRepos.concat(repos)
   }
   return finalRepos
 }
