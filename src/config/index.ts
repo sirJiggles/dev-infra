@@ -20,7 +20,7 @@ export const config = (): DevInfraConfig => {
       token: process.env.NPM_TOKEN!,
       // as it is not a secret this can be hard coded to your npm scope
       // just change it
-      scope: 'jigglyTech',
+      scope: 'jigglytech',
     },
     github: {
       token: process.env.GH_ACCESS_TOKEN!,
