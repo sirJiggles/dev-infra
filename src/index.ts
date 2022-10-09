@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 // make sure the repos on the account are in sync, just use the github API for this
-import { syncRepos } from './syncRepos'
+import { syncRepos } from './resources/repositories'
 
 const run = async () => {
   // sync all the repos under management

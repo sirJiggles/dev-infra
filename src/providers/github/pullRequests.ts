@@ -1,15 +1,13 @@
-import { Octokit } from 'octokit'
 import { config } from '../../config'
+import { octokitInstance as octokit } from './'
 
 export const openPR = async ({
-  octokit,
   repo,
   baseBranch,
   branchName,
   title,
   body,
 }: {
-  octokit: Octokit
   repo: string
   branchName: string
   baseBranch: string

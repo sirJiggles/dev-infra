@@ -1,27 +1,26 @@
-import { log } from './log'
+import { log } from '../../log'
 import {
   createRepo,
   listRepos,
-  octokit,
   createBranch,
   openPR,
   uploadToRepo,
-} from './providers/github'
-import { repositories } from './repositories'
-import { Repository } from './repositories/types'
+} from '../../providers/github'
+import { repositories } from './definitions'
+import { Repository } from './types'
 import fs from 'fs-extra'
-import { config } from './config'
+import { config } from '../../config'
 
 // function to connect to git hub and manage the repos
 export const syncRepos = async () => {
   // create the repo if it does not exist
-  const reposInGithub = await listRepos({ octokit })
+  const reposInGithub = await listRepos()
   const reposInGithubNames = reposInGithub.map((repo) => repo.name)
 
   const reposSynced = repositories.map(async (repo) => {
     // create the repo if it does not exist
     if (!reposInGithubNames.includes(repo.name)) {
-      await createRepo({ octokit, repo })
+      await createRepo({ repo })
 
       // when creating a repo, we make a PR to copy over the template of choice if there is one
       // this is ONLY done on repo creation else it will mess up what might have been done after
@@ -59,7 +58,6 @@ const createTemplatePR = async (repo: Repository) => {
 
   // first make a branch from main
   await createBranch({
-    octokit,
     repo: repo.name,
     baseBranch,
     branchName,
@@ -68,7 +66,6 @@ const createTemplatePR = async (repo: Repository) => {
 
   // upload the template files to the branch
   await uploadToRepo({
-    octokit,
     repo,
     branch: branchName,
     folder: `${envConf.templates.directory}/tmp`,
@@ -76,7 +73,6 @@ const createTemplatePR = async (repo: Repository) => {
 
   // open a PR for the branch
   await openPR({
-    octokit,
     repo: repo.name,
     baseBranch,
     branchName,

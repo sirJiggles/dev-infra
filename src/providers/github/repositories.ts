@@ -1,9 +1,9 @@
-import { Octokit } from 'octokit'
 import { config } from '../../config'
 import { log } from '../../log'
-import { Repository } from '../../repositories/types'
+import { Repository } from '../../resources//repositories/types'
+import { octokitInstance as octokit } from './'
 
-export const listRepos = async ({ octokit }: { octokit: Octokit }) => {
+export const listRepos = async () => {
   const envConf = config()
   // we need to use the paginate iterator incase there are more than 30
   // repos
@@ -21,13 +21,7 @@ export const listRepos = async ({ octokit }: { octokit: Octokit }) => {
   return finalRepos
 }
 
-export const createRepo = async ({
-  octokit,
-  repo,
-}: {
-  octokit: Octokit
-  repo: Repository
-}) => {
+export const createRepo = async ({ repo }: { repo: Repository }) => {
   const envConf = config()
   if (envConf.dryRun) {
     log('info', `dry run, would create repo: ${repo.name}`)

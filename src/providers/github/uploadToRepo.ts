@@ -1,8 +1,8 @@
-import { Octokit } from 'octokit'
 import globby from 'globby'
 import { readFileSync } from 'fs'
 import { config } from '../../config'
-import { Repository } from '../../repositories/types'
+import { Repository } from '../../resources/repositories/types'
+import { octokitInstance as octokit } from './'
 
 // could not easily get typings :/
 type Tree = {
@@ -14,12 +14,10 @@ type Tree = {
 }
 
 export const uploadToRepo = async ({
-  octokit,
   repo,
   branch = 'main',
   folder,
 }: {
-  octokit: Octokit
   repo: Repository
   branch: string
   folder: string
@@ -30,7 +28,6 @@ export const uploadToRepo = async ({
 
   // gets commit's AND its tree's SHA
   const currentCommit = await getCurrentCommit({
-    octokit,
     org,
     repo: repo.name,
     branch,
@@ -40,7 +37,7 @@ export const uploadToRepo = async ({
   })
 
   const filesBlobs = await Promise.all(
-    filesPaths.map(createBlobForFile({ octokit, org, repo: repo.name }))
+    filesPaths.map(createBlobForFile({ org, repo: repo.name }))
   )
 
   const pathsForBlobs = filesPaths.map((filePath) =>
@@ -48,7 +45,6 @@ export const uploadToRepo = async ({
   )
 
   const newTree = await createNewTree({
-    octokit,
     owner: org,
     repo: repo.name,
     blobs: filesBlobs,
@@ -58,7 +54,6 @@ export const uploadToRepo = async ({
   const message = `Adding template files`
 
   const newCommit = await createNewCommit({
-    octokit,
     org,
     repo: repo.name,
     message,
@@ -66,7 +61,6 @@ export const uploadToRepo = async ({
     newTreeSha: newTree.sha,
   })
   await setBranchToCommit({
-    octokit,
     org,
     repo: repo.name,
     branch,
@@ -75,12 +69,10 @@ export const uploadToRepo = async ({
 }
 
 const getCurrentCommit = async ({
-  octokit,
   org,
   repo,
   branch = 'main',
 }: {
-  octokit: Octokit
   org: string
   repo: string
   branch: string
@@ -106,7 +98,7 @@ const getEncodedFile = (filePath: string, encoding: 'utf8' | 'base64') =>
   readFileSync(filePath, { encoding })
 
 const createBlobForFile =
-  ({ octokit, org, repo }: { octokit: Octokit; org: string; repo: string }) =>
+  ({ org, repo }: { org: string; repo: string }) =>
   async (filePath: string) => {
     const encoding = 'base64'
     const content = await getEncodedFile(filePath, encoding)
@@ -121,14 +113,12 @@ const createBlobForFile =
   }
 
 const createNewTree = async ({
-  octokit,
   owner,
   repo,
   blobs,
   paths,
   parentTreeSha,
 }: {
-  octokit: Octokit
   owner: string
   repo: string
   blobs: {
@@ -155,14 +145,12 @@ const createNewTree = async ({
 }
 
 const createNewCommit = async ({
-  octokit,
   org,
   repo,
   message,
   currentCommitSha,
   newTreeSha,
 }: {
-  octokit: Octokit
   org: string
   repo: string
   message: string
@@ -180,13 +168,11 @@ const createNewCommit = async ({
   ).data
 
 const setBranchToCommit = ({
-  octokit,
   org,
   repo,
   branch = 'main',
   commitSha,
 }: {
-  octokit: Octokit
   org: string
   repo: string
   branch: string

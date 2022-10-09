@@ -1,14 +1,12 @@
-import { Octokit } from 'octokit'
 import { config } from '../../config'
+import { octokitInstance as octokit } from './'
 
 export const createBranch = async ({
-  octokit,
   repo,
   branchName,
   baseBranch,
   message,
 }: {
-  octokit: Octokit
   repo: string
   branchName: string
   baseBranch: string
