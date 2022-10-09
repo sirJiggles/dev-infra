@@ -6,11 +6,13 @@ export const createBranch = async ({
   repo,
   branchName,
   baseBranch,
+  message,
 }: {
   octokit: Octokit
   repo: string
   branchName: string
   baseBranch: string
+  message: string
 }) => {
   const envConf = config()
   const owner = envConf.github.org
@@ -37,7 +39,7 @@ export const createBranch = async ({
   const newCommit = await octokit.rest.git.createCommit({
     owner,
     repo,
-    message: 'Making a new branch for template files',
+    message,
     tree: currentCommit.data.tree.sha,
     parents: [currentCommit.data.sha],
   })

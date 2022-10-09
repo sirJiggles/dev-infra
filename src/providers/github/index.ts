@@ -67,6 +67,7 @@ export const createTemplatePR = async (repo: Repository) => {
     repo: repo.name,
     baseBranch,
     branchName,
+    message: 'Making a new branch for template files',
   })
 
   // upload the template files to the branch
