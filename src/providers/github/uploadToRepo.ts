@@ -41,7 +41,7 @@ export const uploadToRepo = async ({
   )
 
   const pathsForBlobs = filesPaths.map((filePath) =>
-    filePath.replace(folder, '')
+    filePath.replace(`${folder}/`, '')
   )
 
   const newTree = await createNewTree({
