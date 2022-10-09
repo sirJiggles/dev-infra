@@ -8,6 +8,8 @@ export const repositories: Repository[] = [
     bots: ['changeset', 'dependabot'],
     team: 'team-awesome',
     template: 'typescript-service',
-    actions: ['test', 'release'],
+    actions: ['test', 'release-changeset'],
+    isPrivate: false,
+    secrets: ['NPM_AUTH_TOKEN', 'GH_ACCESS_TOKEN'],
   },
 ]

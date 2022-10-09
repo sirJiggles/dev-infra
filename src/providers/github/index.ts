@@ -5,6 +5,7 @@ import { createBranch } from './branches'
 import { openPR } from './pullRequests'
 import { uploadToRepo } from './uploadToRepo'
 import { createRepo, listRepos } from './repositories'
+import { getRepoSecret, setRepoSecret } from './secrets'
 
 // this file exports all the things but also does the init of the octokit client
 // we then just pass it about, also exported form here
@@ -21,4 +22,6 @@ export {
   octokitInstance,
   createRepo,
   listRepos,
+  getRepoSecret,
+  setRepoSecret,
 }

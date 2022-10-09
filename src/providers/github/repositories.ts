@@ -21,14 +21,18 @@ export const listRepos = async () => {
   return finalRepos
 }
 
-export const createRepo = async ({ repo }: { repo: Repository }) => {
+export const createRepo = async ({
+  repo: { name, description, gitignoreTemplate, isPrivate },
+}: {
+  repo: Repository
+}) => {
   const envConf = config()
   if (envConf.dryRun) {
-    log('info', `dry run, would create repo: ${repo.name}`)
+    log('info', `dry run, would create repo: ${name}`)
     return
   }
-  log('info', `creating repo: ${repo.name}`)
-  const { name, description, gitignoreTemplate } = repo
+  log('info', `creating repo: ${name}`)
+
   // IF you would like to use this for your personal account
   // just change the call here to create for authenticated user
   // or whatever you need
@@ -37,5 +41,8 @@ export const createRepo = async ({ repo }: { repo: Repository }) => {
     name,
     description,
     gitignore_template: gitignoreTemplate || 'Node',
+    // might make this a config later, but honestly who does not want to remove them?
+    delete_branch_on_merge: true,
+    private: isPrivate,
   })
 }

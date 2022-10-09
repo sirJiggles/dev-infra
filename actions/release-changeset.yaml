@@ -1,0 +1,23 @@
+name: Release changeset
+on:
+  workflow_run:
+    workflows: ['test']
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  release-changeset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci
+      - run: npm run build
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
