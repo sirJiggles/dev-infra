@@ -19,6 +19,9 @@ export const syncRepos = async () => {
       log('info', `repo: ${repo.name}, already exists. Not creating`)
     }
 
+    // // for testing
+    // await createTemplatePR(repo)
+
     return repo.name
   })
 
