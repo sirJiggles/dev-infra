@@ -1,8 +1,8 @@
 import { Octokit } from 'octokit'
 import globby from 'globby'
-import path from 'path'
 import { readFileSync } from 'fs'
 import { config } from '../../config'
+import { Repository } from '../../repositories/types'
 
 // could not easily get typings :/
 type Tree = {
@@ -15,13 +15,11 @@ type Tree = {
 
 export const uploadToRepo = async ({
   octokit,
-  folderPath,
   repo,
   branch = 'main',
 }: {
   octokit: Octokit
-  folderPath: string
-  repo: string
+  repo: Repository
   branch: string
 }) => {
   // get org name from config
@@ -29,35 +27,48 @@ export const uploadToRepo = async ({
   const org = envConfig.github.org
 
   // gets commit's AND its tree's SHA
-  const currentCommit = await getCurrentCommit({ octokit, org, repo, branch })
-  const filesPaths = await globby(folderPath)
+  const currentCommit = await getCurrentCommit({
+    octokit,
+    org,
+    repo: repo.name,
+    branch,
+  })
+  const filesPaths = await globby(`templates/${repo.template}/**/*`, {
+    dot: true,
+  })
+  // push the readme template and the PR template in
+  filesPaths.push('templates/README.md', 'templates/pull_request_template.md')
+
   const filesBlobs = await Promise.all(
-    filesPaths.map(createBlobForFile({ octokit, org, repo }))
+    filesPaths.map(createBlobForFile({ octokit, org, repo: repo.name }))
   )
-  const pathsForBlobs = filesPaths.map((path) =>
-    path.replace('templates/typescript-service/', '')
+
+  const pathsForBlobs = filesPaths.map((filePath) =>
+    filePath.replace(`templates/${repo.template}/`, '')
   )
+
   const newTree = await createNewTree({
     octokit,
     owner: org,
-    repo,
+    repo: repo.name,
     blobs: filesBlobs,
     paths: pathsForBlobs,
     parentTreeSha: currentCommit.treeSha,
   })
   const message = `Adding template files`
+
   const newCommit = await createNewCommit({
     octokit,
     org,
-    repo,
+    repo: repo.name,
     message,
-    currentCommitSha: newTree.sha,
-    currentTreeSha: currentCommit.commitSha,
+    currentCommitSha: currentCommit.commitSha,
+    newTreeSha: newTree.sha,
   })
   await setBranchToCommit({
     octokit,
     org,
-    repo,
+    repo: repo.name,
     branch,
     commitSha: newCommit.sha,
   })
@@ -91,19 +102,20 @@ const getCurrentCommit = async ({
   }
 }
 
-// Notice that readFile's utf8 is typed differently from Github's utf-8
-const getFileAsUTF8 = (filePath: string) =>
-  readFileSync(filePath, { encoding: 'utf8' })
+const getEncodedFile = (filePath: string, encoding: 'utf8' | 'base64') =>
+  readFileSync(filePath, { encoding })
 
 const createBlobForFile =
   ({ octokit, org, repo }: { octokit: Octokit; org: string; repo: string }) =>
   async (filePath: string) => {
-    const content = await getFileAsUTF8(filePath)
+    const encoding = 'base64'
+    const content = await getEncodedFile(filePath, encoding)
+
     const blobData = await octokit.rest.git.createBlob({
       owner: org,
       repo,
       content,
-      encoding: 'utf-8',
+      encoding,
     })
     return blobData.data
   }
@@ -126,7 +138,6 @@ const createNewTree = async ({
   paths: string[]
   parentTreeSha: string
 }) => {
-  // My custom config. Could be taken as parameters
   const tree: Tree[] = blobs.map(({ sha }, index) => ({
     path: paths[index],
     // this is file mode
@@ -149,13 +160,13 @@ const createNewCommit = async ({
   repo,
   message,
   currentCommitSha,
-  currentTreeSha,
+  newTreeSha,
 }: {
   octokit: Octokit
   org: string
   repo: string
   message: string
-  currentTreeSha: string
+  newTreeSha: string
   currentCommitSha: string
 }) =>
   (
@@ -163,7 +174,7 @@ const createNewCommit = async ({
       owner: org,
       repo,
       message,
-      tree: currentTreeSha,
+      tree: newTreeSha,
       parents: [currentCommitSha],
     })
   ).data

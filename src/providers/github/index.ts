@@ -62,26 +62,25 @@ export const createTemplatePR = async (repo: Repository) => {
   const baseBranch = 'main'
 
   // first make a branch from main
-  // await createBranch({
-  //   octokit,
-  //   repo: repo.name,
-  //   baseBranch,
-  //   branchName,
-  // })
+  await createBranch({
+    octokit,
+    repo: repo.name,
+    baseBranch,
+    branchName,
+  })
 
   // upload the template files to the branch
   await uploadToRepo({
     octokit,
-    folderPath: `templates/${repo.template}/**/*`,
-    repo: repo.name,
+    repo,
     branch: branchName,
   })
 
   // open a PR for the branch
-  // await openTemplatePR({
-  //   octokit,
-  //   repo: repo.name,
-  //   baseBranch,
-  //   branchName,
-  // })
+  await openTemplatePR({
+    octokit,
+    repo: repo.name,
+    baseBranch,
+    branchName,
+  })
 }
