@@ -26,4 +26,5 @@ export type Repository = {
   bots?: RepositoryBot[]
   secrets?: RepositorySecret[]
   actions?: GitActions[]
+  gitignoreTemplate?: string
 }
