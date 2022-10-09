@@ -29,5 +29,6 @@ export const config = (): DevInfraConfig => {
     templates: {
       directory: 'templates',
     },
+    dryRun: Boolean(process.env.DRY_RUN) || false,
   }
 }

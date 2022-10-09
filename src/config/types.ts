@@ -10,4 +10,5 @@ export type DevInfraConfig = {
   templates: {
     directory: string
   }
+  dryRun: boolean
 }

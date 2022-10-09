@@ -17,10 +17,12 @@ export const uploadToRepo = async ({
   octokit,
   repo,
   branch = 'main',
+  folder,
 }: {
   octokit: Octokit
   repo: Repository
   branch: string
+  folder: string
 }) => {
   // get org name from config
   const envConfig = config()
@@ -33,7 +35,7 @@ export const uploadToRepo = async ({
     repo: repo.name,
     branch,
   })
-  const filesPaths = await globby(`${envConfig.templates.directory}/tmp/**/*`, {
+  const filesPaths = await globby(`${folder}/**/*`, {
     dot: true,
   })
 
@@ -42,7 +44,7 @@ export const uploadToRepo = async ({
   )
 
   const pathsForBlobs = filesPaths.map((filePath) =>
-    filePath.replace(`${envConfig.templates.directory}/tmp/`, '')
+    filePath.replace(folder, '')
   )
 
   const newTree = await createNewTree({
