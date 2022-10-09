@@ -18,10 +18,16 @@ export const config = (): DevInfraConfig => {
       // force unwrap some of the params as we know they are dynamically checked above
       // but TS is unable to evaluate that they were checked, just be sure to not miss-type them 🙈
       token: process.env.NPM_TOKEN!,
+      // as it is not a secret this can be hard coded to your npm scope
+      // just change it
+      scope: 'jigglyTech',
     },
     github: {
       token: process.env.GH_ACCESS_TOKEN!,
       org: process.env.GH_ORG_NAME!,
+    },
+    templates: {
+      directory: 'templates',
     },
   }
 }

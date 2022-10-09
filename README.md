@@ -54,6 +54,8 @@ For all config settings there are some env vars also needed that you can set in 
 
 `NPM_TOKEN` is needed so repos that use npm can publish to the registry. Get this token generated in your NPM account with the right access (an automation token, to bypass MFA)
 
+In the [config file](/src/config/index.ts) you can set the scope of your npm org. This will change the scope for you in the package.json file when you use a template
+
 ### Github
 
 For github there are a few config settings, mainly as the sync of the repos and how they are configured is done using the [octokit](https://github.com/octokit/octokit.js) client, which requires values for various operations, they are:

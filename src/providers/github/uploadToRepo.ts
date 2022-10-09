@@ -33,18 +33,16 @@ export const uploadToRepo = async ({
     repo: repo.name,
     branch,
   })
-  const filesPaths = await globby(`templates/${repo.template}/**/*`, {
+  const filesPaths = await globby(`${envConfig.templates.directory}/tmp/**/*`, {
     dot: true,
   })
-  // push the readme template and the PR template in
-  filesPaths.push('templates/README.md', 'templates/pull_request_template.md')
 
   const filesBlobs = await Promise.all(
     filesPaths.map(createBlobForFile({ octokit, org, repo: repo.name }))
   )
 
   const pathsForBlobs = filesPaths.map((filePath) =>
-    filePath.replace(`templates/${repo.template}/`, '')
+    filePath.replace(`${envConfig.templates.directory}/tmp/`, '')
   )
 
   const newTree = await createNewTree({

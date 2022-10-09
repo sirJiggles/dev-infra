@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Templates tmp dir that assembles templates before uploading them
+/templates/tmp
