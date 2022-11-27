@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { RequiredConfigError } from './errors'
 import { DevInfraConfig } from './types'
 
@@ -20,15 +21,15 @@ export const config = (): DevInfraConfig => {
       token: process.env.NPM_TOKEN!,
       // as it is not a secret this can be hard coded to your npm scope
       // just change it
-      scope: 'jigglytech',
+      scope: 'jigglytech'
     },
     github: {
       token: process.env.GH_ACCESS_TOKEN!,
-      org: process.env.GH_ORG_NAME!,
+      org: process.env.GH_ORG_NAME!
     },
     templates: {
-      directory: 'templates',
+      directory: 'templates'
     },
-    dryRun: Boolean(process.env.DRY_RUN) || false,
+    dryRun: Boolean(process.env.DRY_RUN) || false
   }
 }
