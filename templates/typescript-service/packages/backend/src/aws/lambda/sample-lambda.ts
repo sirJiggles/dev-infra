@@ -11,7 +11,7 @@ import { passBody } from './body'
 import { lambdaResponse } from './response'
 
 function isSamplePayload(payload: Payload | unknown): payload is Payload {
-  return (payload as Payload).zid !== undefined
+  return (payload as Payload).id !== undefined
 }
 
 export const handler = async (
@@ -52,7 +52,5 @@ export const handler = async (
     })
   }
 
-  return lambdaResponse(200, {
-    message: 'stored the db contents'
-  })
+  return lambdaResponse(200, payload)
 }
