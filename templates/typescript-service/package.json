@@ -4,9 +4,11 @@
   "description": "DESCRIPTION",
   "main": "index.js",
   "scripts": {
-    "test": "npx jest",
-    "build": "npx tsc",
-    "lint": "npx tslint './src/**/*.ts'"
+    "bootstrap": "npx lerna bootstrap",
+    "build": "npx lerna run --ignore @scope/service-infrastructure build",
+    "deploy": "cd packages/backend && npm run package && cd ../infrastructure && npm run deploy:approve",
+    "test": "npx lerna run test",
+    "lint": "npx lerna run lint"
   },
   "repository": {
     "type": "git",
@@ -21,16 +23,10 @@
   "volta": {
     "node": "16.x.x"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
-    "@types/jest": "^29.x.x",
-    "dotenv": "^16.x.x",
-    "jest": "^29.x.x",
-    "ts-jest": "^29.x.x",
-    "@typescript-eslint/eslint-plugin": "^5.x.x",
-    "@typescript-eslint/parser": "^5.x.x",
-    "eslint": "^8.x.x",
-    "eslint-config-prettier": "^8.x.x",
-    "eslint-plugin-prettier": "^4.x.x",
-    "typescript": "^4.x.x"
+    "lerna": "^6.x.x"
   }
 }

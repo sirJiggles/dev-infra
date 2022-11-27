@@ -1,0 +1,43 @@
+{
+  "name": "@scope/service-api-types",
+  "version": "1.0.0",
+  "description": "shared types of the api service",
+  "main": "./dist/src/schema.js",
+  "preversion": "npm run build",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run generate && npx tsc",
+    "lint": "npx tslint './src/**/*.ts'",
+    "generate": "openapi-typescript src/schema.yml --output src/schema.ts",
+    "start": "node scripts/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOURREPO.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YOURREPO/issues"
+  },
+  "homepage": "https://github.com/YOURREPO#readme",
+  "volta": {
+    "node": "16.17.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.x.x",
+    "@typescript-eslint/parser": "^5.x.x",
+    "eslint": "^8.x.x",
+    "eslint-config-prettier": "^8.x.x",
+    "eslint-plugin-prettier": "^4.x.x",
+    "express": "^4.x.x",
+    "prettier": "^2.x.x",
+    "typescript": "^4.x.x"
+  },
+  "types": "./dist/src/schema.d.ts",
+  "dependencies": {
+    "openapi-typescript": "^6.x.x"
+  }
+}

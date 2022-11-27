@@ -1,0 +1,8 @@
+{
+  "README": "I find the best way to test this is to simply login to the UI and look at the network for what token gives you after login then paste it in a file called token.json int his folder. it will also save you from committing accidentally as it is ignored",
+  "access_token": "SOMETHING",
+  "id_token": "SOMETHING",
+  "scope": "openid profile email",
+  "expires_in": 86400,
+  "token_type": "Bearer"
+}

@@ -1,0 +1,52 @@
+{
+  "name": "@scope/service-backend",
+  "version": "1.0.0",
+  "description": "Your service backend",
+  "main": "index.js",
+  "scripts": {
+    "test:auth0": "npm run build && node scripts/auth-0-authorizer.js",
+    "test:sample": "npm run build && node scripts/sample-lambda.js",
+    "build": "npx tsc",
+    "test-skip": "npx jest",
+    "lint": "npx eslint ./src",
+    "package": "npm run build && cp package.json ./dist && cd ./dist && npm i --omit=dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOURREPO.git"
+  },
+  "author": "",
+  "license": "LICENCE",
+  "bugs": {
+    "url": "https://github.com/YOURREPO/issues"
+  },
+  "homepage": "https://github.com/YOURREPO#readme",
+  "volta": {
+    "node": "16.x.x"
+  },
+  "devDependencies": {
+    "@scope/service-api-types": "^1.0.0",
+    "@types/auth0": "^2.x.x",
+    "@types/aws-lambda": "^8.x.x",
+    "@types/jest": "^29.x.x",
+    "@types/node": "^18.x.x",
+    "@typescript-eslint/eslint-plugin": "^5.x.x",
+    "@typescript-eslint/parser": "^5.x.x",
+    "eslint": "^8.x.x",
+    "eslint-config-prettier": "^8.x.x",
+    "eslint-plugin-prettier": "^4.x.x",
+    "jest": "^29.x.x",
+    "prettier": "^2.x.x",
+    "ts-jest": "^29.x.x",
+    "typescript": "^4.x.x"
+  },
+  "dependencies": {
+    "@sentry/node": "^7.x.x",
+    "@sentry/tracing": "^7.x.x",
+    "auth0": "^2.x.x",
+    "dotenv": "^16.x.x",
+    "jsonwebtoken": "^8.x.x",
+    "jwks-rsa": "^2.x.x",
+    "lambda-local": "^2.x.x"
+  }
+}

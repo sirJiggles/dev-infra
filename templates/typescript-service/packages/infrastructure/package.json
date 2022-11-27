@@ -1,0 +1,50 @@
+{
+  "name": "@scope/service-infrastructure",
+  "version": "1.0.0",
+  "main": "main.js",
+  "types": "main.ts",
+  "license": "LICENCE",
+  "private": true,
+  "scripts": {
+    "get": "cdktf get",
+    "build": "tsc",
+    "synth": "cdktf synth",
+    "compile": "tsc --pretty",
+    "watch": "tsc -w",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "upgrade": "npm i cdktf@latest cdktf-cli@latest",
+    "upgrade:next": "npm i cdktf@next cdktf-cli@next",
+    "deploy": "node scripts/cdktf.js",
+    "deploy:backend": "node scripts/deploy-backend.js",
+    "deploy:approve": "ACTION='deploy --auto-approve' node scripts/cdktf.js",
+    "lint": "npx eslint ./src/**/*"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "dependencies": {
+    "@cdktf/provider-aws": "^10.0.9",
+    "cdktf": "^0.13.0-pre.62",
+    "constructs": "^10.1.128",
+    "dotenv": "^16.x.x",
+    "glob": "^7.x.x",
+    "mime-types": "^2.x.x"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.x.x",
+    "@types/jest": "^29.x.x",
+    "@types/mime-types": "^2.x.x",
+    "@types/node": "^18.x.x",
+    "@typescript-eslint/eslint-plugin": "^5.x.x",
+    "@typescript-eslint/parser": "^5.x.x",
+    "eslint": "^8.x.x",
+    "eslint-config-prettier": "^8.x.x",
+    "eslint-plugin-prettier": "^4.x.x",
+    "jest": "^29.x.x",
+    "prettier": "^2.x.x",
+    "ts-jest": "^29.x.x",
+    "ts-node": "^10.x.x",
+    "typescript": "^4.x.x"
+  }
+}

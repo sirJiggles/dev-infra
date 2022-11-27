@@ -1,0 +1,85 @@
+openapi: '3.0.2'
+info:
+  title: Your service
+  description: description of your service
+  version: '1.0'
+servers:
+  # at build time to put the docs online we put the url for the stack in here
+  - url: API_URL
+
+paths:
+  /sample:
+    post:
+      description: This is a sample end point
+      security:
+        - auth0: []
+      requestBody:
+        description: Payload to send to this sample end point
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SamplePayload'
+      responses:
+        # From the authorizer
+        '400':
+          $ref: '#/components/responses/ForbiddenError'
+        # If you pass id of 123
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '200':
+          description: 'we give back what you send'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SamplePayload'
+
+components:
+  schemas:
+    SomeType:
+      type: string
+      enum:
+        - one
+        - two
+    SomeStatus:
+      type: boolean
+      enum:
+        - 1
+        - 2
+        - 3
+    SamplePayload:
+      type: object
+      properties:
+        id:
+          type: string
+        from:
+          type: string
+        type:
+          $ref: '#/components/schemas/SomeType'
+        status:
+          $ref: '#/components/schemas/SomeStatus'
+      required:
+        - 'id'
+        - 'type'
+        - 'status'
+
+  responses:
+    UnauthorizedError:
+      description: Access token invalid
+    PayloadError:
+      description: Invalid payload body
+    ForbiddenError:
+      description: This tends to be the case that you do not have access to the resource.
+    InternalError:
+      description: An unhandled error, we will have logs on it but get in touch with us if you get it.
+
+  securitySchemes:
+    auth0: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - auth0: []
